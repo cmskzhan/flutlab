@@ -45,5 +45,14 @@ class QuizBank {
     }
   }
 
-
+  bool isFininshed() {
+    if (_questionNumber >= _qas.length -1) {
+        return true;
+    } else {
+        return false;
+    }
+  }
+  void reset() {
+    _questionNumber = 0;
+  }
 }

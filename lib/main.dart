@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'QuizBank.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizBank quizBank = QuizBank();
 
@@ -35,12 +36,21 @@ class _QuizPageState extends State<QuizPage> {
   //create 2 lists, empty one to keepscore, a list of right and wrong icons to add to keepscore
   List<Widget> score = [
     Icon(Icons.check, color: Colors.green),
-    Icon(Icons.close, color: Colors.red)
+    Icon(Icons.close, color: Colors.red),
+    Icon(Icons.thumb_up, color: Colors.white24),
+    Icon(Icons.thumb_down, color: Colors.white24)
   ];
   List<Widget> scoreKeeper = [];
+  List<Widget> useranswer = [];
 
   void checkAnswer(bool userInput) {
-    if (userInput == quizBank.getQuestionAnswer()) {scoreKeeper.add(score[0]);} else {scoreKeeper.add(score[1]);}   
+    if (userInput == quizBank.getQuestionAnswer()) {scoreKeeper.add(score[2]);} else {scoreKeeper.add(score[3]);} 
+    if (quizBank.isFininshed())  {
+      Alert(context: context, title: "finished!", desc: "End of questions").show();
+      scoreKeeper = [];
+      useranswer = [];
+      quizBank.reset();
+    }
   }
 
 
@@ -82,7 +92,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() { 
-                  scoreKeeper.add(Icon( //add tick  to scoreKeeper list hard way
+                  useranswer.add(Icon( //add tick  to scoreKeeper list hard way
                     Icons.check,
                     color: Colors.green,
                   ));
@@ -109,7 +119,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 setState(() { // add x to scoreKeeper list from score list
-                  scoreKeeper.add(score[1]);
+                  useranswer.add(score[1]);
                 });
                 checkAnswer(false);
                 quizBank.nextQuestion();
@@ -119,6 +129,9 @@ class _QuizPageState extends State<QuizPage> {
         ),
         Row(
           children: scoreKeeper,
+        ),
+        Row(
+          children: useranswer,
         )
       ],
     );
