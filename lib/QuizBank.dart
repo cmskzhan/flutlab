@@ -33,10 +33,10 @@ class QuizBank {
 
 
   String getQuestionText() { // main() can call and access question text
-    return _qas[_questionNumber].s1;
+    return _qas[_questionNumber].s;
   }
   bool getQuestionAnswer() { // like above method, encapsulate answer retrieval
-    return _qas[_questionNumber].trueFalse;
+    return _qas[_questionNumber].a;
   }
 
   void nextQuestion() {
