@@ -162,8 +162,8 @@ gender? tappedGender;
           GestureDetector(
             onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) {return ResultPage();}));},
             child: Container(
-              //margin: EdgeInsets.only(top: 10),
-              //padding: EdgeInsets.only(bottom: 15),
+              margin: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(bottom: 10),
               color: bottomContainerColor,
               height: bottomContainerHeight,
               width: double.infinity, //expand to the sides
