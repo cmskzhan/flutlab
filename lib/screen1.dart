@@ -14,7 +14,6 @@ class Screen1 extends StatelessWidget {
             child: Text("go to 2nd Screen"),
 
       )),
-      
     );
   }
 }
