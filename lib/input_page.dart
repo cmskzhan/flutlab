@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'cardAndContainerTemplates.dart';
 import 'customWidget.dart';
 import 'result_page.dart';
+import 'calculateResult.dart';
 
 // might move below const to templates?
-const bottomContainerHeight = 50.0;
+
 const activeCardColor = Color(0xFF1D1E33);
 const inactiveCardColor = Color(0xFF111328);
-const bottomContainerColor = Colors.pink;
 int initialTall = 180;
 int initialHeavy = 50;
 int initialAge = 21;
@@ -159,20 +159,19 @@ gender? tappedGender;
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) {return ResultPage();}));},
-            child: Container(
-              margin: EdgeInsets.only(top: 10),
-              padding: EdgeInsets.only(bottom: 10),
-              color: bottomContainerColor,
-              height: bottomContainerHeight,
-              width: double.infinity, //expand to the sides
-              child: Center(child: Text("Calculate")),
-            ),
-          )
+          BottomSubmitButton(submitButtonText: "CALCULATE", 
+                             onPress: () {
+                               CalculateBMIresult calc = CalculateBMIresult(age: initialAge, tall: initialTall, weight: initialHeavy);
+                               Navigator.push(context, MaterialPageRoute(builder: (context) {return ResultPage(
+                                 bmiResult: calc.Calculate_BMI_score(),
+                                 resultText: calc.Assessed_result(),
+                                 longDescript: calc.FullText_result(),
+                               );}));},)
         ],
       ),
       
     );
   }
 }
+
+

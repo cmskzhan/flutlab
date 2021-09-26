@@ -3,6 +3,12 @@ import 'cardAndContainerTemplates.dart';
 
 class ResultPage extends StatelessWidget {
   
+  final double bmiResult;
+  final String resultText;
+  final String longDescript;
+
+  ResultPage({required this.bmiResult, required this.resultText, required this.longDescript});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,13 +22,13 @@ class ResultPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Center(child: Text("Normal", style: TextStyle(color: Colors.lightGreen, fontSize: 22),)),
-                            Center(child: Text('18.3', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 100))),
-                            Center(child: Text("Your BMI result is low, eat more"))
+                            Center(child: Text(resultText, style: TextStyle(color: Colors.lightGreen, fontSize: 22),)),
+                            Center(child: Text(bmiResult.toStringAsFixed(2), style: TextStyle(fontWeight: FontWeight.w900, fontSize: 100))),
+                            Center(child: Text(longDescript))
                           ],
             ),),
-          )
-
+          ),
+        BottomSubmitButton(submitButtonText: "Re-CALCULATE", onPress: () {Navigator.pop(context);})
         ],
       )
       

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 const activeCardColor = Color(0xFF1D1E33);
-
+const bottomContainerHeight = 50.0;
+const bottomContainerColor = Colors.pink;
 
 
 
@@ -53,4 +54,32 @@ class MyContainer extends StatelessWidget {
   }
 }
 
-void afunction(){}
+
+
+
+
+
+
+
+class BottomSubmitButton extends StatelessWidget {
+  final String submitButtonText;
+  final VoidCallback onPress;
+
+  BottomSubmitButton({required this.submitButtonText, required this.onPress});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPress,
+      child: Container(
+        margin: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(bottom: 10),
+        color: bottomContainerColor,
+        height: bottomContainerHeight,
+        width: double.infinity, //expand to the sides
+        child: Center(child: Text(submitButtonText)),
+      ),
+    );
+  }
+}
