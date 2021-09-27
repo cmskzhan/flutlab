@@ -8,16 +8,26 @@ class LoadingScreen extends StatefulWidget {
   _LoadingScreenState createState() => _LoadingScreenState();
 }
   void getGeoLocation() async { 
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    print(position);
+    try {
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+      print(position);
+    } catch (e) {
+      print(e);
+    }
   }
 
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    getGeoLocation();
+    getClassLoc();
+  }
 
+  void getClassLoc() async {
+    Location currentLoc = Location();
+    await currentLoc.getCurrentGeoLocation();
+    print(currentLoc.Latitude);
+    print(currentLoc.Longitude);
   }
 
   @override
@@ -25,5 +35,22 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return Scaffold(
         body: Center(child: TextButton(child: Text("location"), onPressed: () {getGeoLocation();},)),
     );
+  }
+}
+
+// customized classes to get locations and weatherMap API
+
+class Location {
+  late double Latitude;
+  late double Longitude;
+
+  Future<void> getCurrentGeoLocation () async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+      Latitude = position.latitude;
+      Longitude = position.longitude;
+    } catch (e) {
+      print(e);
+    }
   }
 }
