@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({ Key? key }) : super(key: key);
@@ -15,6 +16,15 @@ class LoadingScreen extends StatefulWidget {
       print(e);
     }
   }
+
+  void getHttpResp() async {
+    var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=3b7aee780a787b015e121593fedeb197');
+    var response = await http.get(url);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+  }
+
+
 
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
@@ -33,7 +43,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(child: TextButton(child: Text("location"), onPressed: () {getGeoLocation();},)),
+        body: Center(child: TextButton(child: Text("location"), onLongPress: () {getHttpResp();}, onPressed: () {getGeoLocation();},)),
     );
   }
 }
