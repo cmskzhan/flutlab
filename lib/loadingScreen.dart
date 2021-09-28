@@ -43,7 +43,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    combineAbove2methods();
+    getClassHttp_JsonDecode();
   }
 
   void getClassLoc() async {
@@ -54,38 +54,33 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getClassHttp_JsonDecode() async {
+    getClassLoc();
     var url = Uri.parse(urlString);
     HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(url);
     var weatherData = await jsonOut.getApi();
     print(weatherData.toString());
+    Navigator.push(context, MaterialPageRoute(builder: (context) {return LocationWeather();}));
   }
 
-  void combineAbove2methods() {
-    getClassLoc();
-    getClassHttp_JsonDecode();
-  }
+  // void combineAbove2methods() {
+  //   getClassLoc();
+  //   getClassHttp_JsonDecode();
+  //   Navigator.push(context, MaterialPageRoute(builder: (context) {return LocationWeather();}));
+
+  // }
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          child: Column(
-            children: [
-              TextButton(
-        child: Text("location"),
-        onLongPress: () {
-              getHttpResp();
-        },
-        onPressed: () {
-              getGeoLocation();
-              Navigator.push(context, MaterialPageRoute(builder: (context) {return LocationWeather();}));
-        },
-      ),
-      SpinKitWave(size: 100, color: Colors.blue)
-            ],
-          )),
+        body: Center(child: Column(
+          children: [
+            SpinKitWave(size: 100, color: Colors.white),
+            Text("auto directing to \n $urlString"),
+            TextButton(onPressed: () {getGeoLocation();}, child: Text("click me"))
+          ],
+        ))
     );
   }
 }
