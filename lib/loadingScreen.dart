@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({ Key? key }) : super(key: key);
 
+  
+
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
+  final String urlString = 'https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=3b7aee780a787b015e121593fedeb197';
   void getGeoLocation() async { 
     try {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
@@ -18,10 +22,17 @@ class LoadingScreen extends StatefulWidget {
   }
 
   void getHttpResp() async {
-    var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=3b7aee780a787b015e121593fedeb197');
+    var url = Uri.parse(urlString);
     var response = await http.get(url);
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    if (response.statusCode == 200) {
+      var temperature = jsonDecode(response.body)['main']['temp'];
+      var weather = jsonDecode(response.body)['weather'][0]['id'];
+      var name = jsonDecode(response.body)['name'];
+      print(weather.runtimeType);
+      print('$weather, $temperature, $name');
+    } else {
+      print('Response status: ${response.statusCode}');
+    }
   }
 
 
@@ -30,7 +41,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    getClassLoc();
+    combineAbove2methods();
   }
 
   void getClassLoc() async {
@@ -39,6 +50,20 @@ class _LoadingScreenState extends State<LoadingScreen> {
     print(currentLoc.Latitude);
     print(currentLoc.Longitude);
   }
+
+  void getClassHttp_JsonDecode() async {
+    var url = Uri.parse(urlString);
+    HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(url);
+    var weatherData = await jsonOut.getApi();
+    print(weatherData.toString());
+  }
+
+  void combineAbove2methods() {
+    getClassLoc();
+    getClassHttp_JsonDecode();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +75,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
 // customized classes to get locations and weatherMap API
 
+// Getting Location
 class Location {
   late double Latitude;
   late double Longitude;
@@ -61,6 +87,20 @@ class Location {
       Longitude = position.longitude;
     } catch (e) {
       print(e);
+    }
+  }
+}
+// Getting weather from API
+class HttpGet_JsonDecode {
+  HttpGet_JsonDecode(this.url); //takes URL as parameter
+  final Uri url;
+
+  Future getApi() async {
+    http.Response resp = await http.get(url);
+    if (resp.statusCode == 200) {
+      return jsonDecode(resp.body);
+    } else {
+      print(resp.statusCode);
     }
   }
 }
