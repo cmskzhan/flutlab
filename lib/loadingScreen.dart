@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'locationWeatherScreen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({ Key? key }) : super(key: key);
@@ -68,7 +70,22 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(child: TextButton(child: Text("location"), onLongPress: () {getHttpResp();}, onPressed: () {getGeoLocation();},)),
+        body: Center(
+          child: Column(
+            children: [
+              TextButton(
+        child: Text("location"),
+        onLongPress: () {
+              getHttpResp();
+        },
+        onPressed: () {
+              getGeoLocation();
+              Navigator.push(context, MaterialPageRoute(builder: (context) {return LocationWeather();}));
+        },
+      ),
+      SpinKitWave(size: 100, color: Colors.blue)
+            ],
+          )),
     );
   }
 }
