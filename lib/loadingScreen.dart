@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'locationWeatherScreen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'GPSandAPI.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -11,6 +9,7 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  final String urlString = 'https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=3b7aee780a787b015e121593fedeb197';
   @override
   void initState() {
     super.initState();
@@ -26,17 +25,16 @@ class _LoadingScreenState extends State<LoadingScreen> {
     print(currentLoc.Longitude);
     
     //2. construct URL
-    var url = Uri(
-      scheme: "https",
-      host: 'api.openweathermap.org',
-      path: '/data/2.5/weather',
-      queryParameters: { "lat" : "${currentLoc.Latitude}", 
-                        "lon" : "${currentLoc.Longitude}", 
-                        "appid" : "3b7aee780a787b015e121593fedeb197",
-                        "units" : "metric" },
-      );
-      print(url.toString());
-    // var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=${currentLoc.Latitude}&lon=${currentLoc.Longitude}&appid=3b7aee780a787b015e121593fedeb197');
+    // var url = Uri(
+    //   scheme: "https",
+    //   host: 'api.openweathermap.org',
+    //   path: '/data/2.5/weather',
+    //   queryParameters: { "lat" : "${currentLoc.Latitude}", 
+    //                     "lon" : "${currentLoc.Longitude}", 
+    //                     "appid" : "3b7aee780a787b015e121593fedeb197",
+    //                     "units" : "metric" },
+    // );
+    var url = Uri.parse(urlString);
 
     //3. get json output from HTTP.get Class below
     HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(url);
@@ -58,39 +56,5 @@ class _LoadingScreenState extends State<LoadingScreen> {
           ],
         ))
     );
-  }
-}
-
-// customized classes to get locations and weatherMap API
-
-// Getting Location
-class Location {
-  late double Latitude;
-  late double Longitude;
-
-  Future<List> getCurrentGeoLocation () async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-      Latitude = position.latitude;
-      Longitude = position.longitude;
-      return [Latitude, Longitude];
-    } catch (e) {
-      print(e);
-      return [e];
-    }
-  }
-}
-// Getting weather from API
-class HttpGet_JsonDecode {
-  HttpGet_JsonDecode(this.url); //takes URL as parameter
-  final Uri url;
-
-  Future getApi() async {
-    http.Response resp = await http.get(url);
-    if (resp.statusCode == 200) {
-      return jsonDecode(resp.body);
-    } else {
-      print(resp.statusCode);
-    }
   }
 }

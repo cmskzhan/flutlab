@@ -30,4 +30,26 @@ class WeatherModel {
       return 'Bring a 🧥 just in case';
     }
   }
+
+  // Future<dynamic> GetNewLocationWeather() async {
+  //   Location location = Location();
+  //   await location.getCurrentGeoLocation();
+  //     var newurl = Uri(
+  //     scheme: "https",
+  //     host: 'api.openweathermap.org',
+  //     path: '/data/2.5/weather',
+  //     queryParameters: { "lat" : "${location.Latitude}", 
+  //                       "lon" : "${location.Longitude}", 
+  //                       "appid" : "3b7aee780a787b015e121593fedeb197",
+  //                       "units" : "metric" },
+  //     );
+    
+  //   HttpGet_JsonDecode updatedJson = HttpGet_JsonDecode(newurl);
+  //   var newJson = updatedJson.getApi();
+  //   return newJson;
+
+  // }
+
+
+
 }

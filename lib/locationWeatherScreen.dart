@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'weather.dart';
+import 'GPSandAPI.dart';
 
 class LocationWeather extends StatefulWidget {
   final locationWeather;
@@ -32,7 +33,39 @@ class _LocationWeatherState extends State<LocationWeather> {
 
     weatherIcon = wd.getWeatherIcon(weather);
     greeting = wd.getMessage(temperature);
+
   }
+
+  void updateGPSandWeather() async {
+    //1 . get location from Class Location below
+    Location currentLoc = Location();
+    await currentLoc.getCurrentGeoLocation();
+    print(currentLoc.Latitude);
+    print(currentLoc.Longitude);
+
+    //2. construct URL
+    var url = Uri(
+      scheme: "https",
+      host: 'api.openweathermap.org',
+      path: '/data/2.5/weather',
+      queryParameters: { "lat" : "${currentLoc.Latitude}", 
+                        "lon" : "${currentLoc.Longitude}", 
+                        "appid" : "3b7aee780a787b015e121593fedeb197",
+                        "units" : "metric" },
+      );
+
+    //3. get json output from HTTP.get Class below
+    HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(url);
+    var weatherData = await jsonOut.getApi();
+    print(weatherData.toString());
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LocationWeather(locationWeather: weatherData,);
+      }));
+  }
+
+
+
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +82,7 @@ class _LocationWeatherState extends State<LocationWeather> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: () {}, child: Icon(Icons.near_me, size: 50.0,),),
+                TextButton(onPressed: () {updateGPSandWeather();}, child: Icon(Icons.near_me, size: 50.0,),),
                 TextButton(onPressed: () {}, child: Icon(Icons.location_city, size: 50.0,),),
               ],
             ),
@@ -60,7 +93,7 @@ class _LocationWeatherState extends State<LocationWeather> {
                 Text(weatherIcon, style: TextStyle(fontSize: 100),)
               ],
             ),),
-            Padding(padding: EdgeInsets.only(right: 14.8), child: Text("$greeting in $cityname", style: TextStyle(fontSize: 22),),)
+            Padding(padding: EdgeInsets.only(right: 14.8), child: Text("$greeting in $cityname", style: TextStyle(fontSize: 20),),)
           ],
         ),),),
     );
