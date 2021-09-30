@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
 
 class LocationWeather extends StatefulWidget {
-  const LocationWeather({ Key? key }) : super(key: key);
+  final locationWeather;
+  LocationWeather({this.locationWeather});
 
   @override
   _LocationWeatherState createState() => _LocationWeatherState();
 }
 
 class _LocationWeatherState extends State<LocationWeather> {
+  var temperature;
+  var weather;
+  var cityname;
+
   @override
+  void initState() {
+    super.initState();
+
+    updateUI(widget.locationWeather);
+  }
+
+  void updateUI(dynamic weatherData) {
+    temperature = weatherData['main']['temp'].toInt(); //get rid of decimal
+    weather = weatherData['weather'][0]['id'];
+    cityname = weatherData['name'];
+
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -31,11 +49,11 @@ class _LocationWeatherState extends State<LocationWeather> {
             Padding(padding: EdgeInsets.fromLTRB(20, 20, 20, 20), child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text("22°", style: TextStyle(fontSize: 100), textAlign: TextAlign.right,),
+                Text(temperature.toString(), style: TextStyle(fontSize: 100), textAlign: TextAlign.right,),
                 Text("☀️", style: TextStyle(fontSize: 100),)
               ],
             ),),
-            Padding(padding: EdgeInsets.only(right: 14.8), child: Text("It's 🍦 time in IceLand"),)
+            Padding(padding: EdgeInsets.only(right: 14.8), child: Text("It's 🍦 time in $cityname", style: TextStyle(fontSize: 25),),)
           ],
         ),),),
     );

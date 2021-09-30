@@ -43,32 +43,33 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    getClassHttp_JsonDecode();
+    getClass_Location_and_HttpAPI_JsonDecode();
   }
 
-  void getClassLoc() async {
+  // void getClassLoc() async {
+  //   Location currentLoc = Location();
+  //   await currentLoc.getCurrentGeoLocation();
+  //   print(currentLoc.Latitude);
+  //   print(currentLoc.Longitude);
+  //   print(_geoloc[0]);
+  //   print(_geoloc[1]);
+  //}
+
+  void getClass_Location_and_HttpAPI_JsonDecode() async {
+    //1 . get location from Class Location below
     Location currentLoc = Location();
     await currentLoc.getCurrentGeoLocation();
     print(currentLoc.Latitude);
     print(currentLoc.Longitude);
-  }
 
-  void getClassHttp_JsonDecode() async {
-    getClassLoc();
-    var url = Uri.parse(urlString);
+    var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=${currentLoc.Latitude}&lon=${currentLoc.Longitude}&appid=3b7aee780a787b015e121593fedeb197');
     HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(url);
     var weatherData = await jsonOut.getApi();
     print(weatherData.toString());
-    Navigator.push(context, MaterialPageRoute(builder: (context) {return LocationWeather();}));
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LocationWeather(locationWeather: weatherData,);
+      }));
   }
-
-  // void combineAbove2methods() {
-  //   getClassLoc();
-  //   getClassHttp_JsonDecode();
-  //   Navigator.push(context, MaterialPageRoute(builder: (context) {return LocationWeather();}));
-
-  // }
-
 
 
   @override
@@ -92,13 +93,15 @@ class Location {
   late double Latitude;
   late double Longitude;
 
-  Future<void> getCurrentGeoLocation () async {
+  Future<List> getCurrentGeoLocation () async {
     try {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
       Latitude = position.latitude;
       Longitude = position.longitude;
+      return [Latitude, Longitude];
     } catch (e) {
       print(e);
+      return [e];
     }
   }
 }
