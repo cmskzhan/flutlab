@@ -13,29 +13,6 @@ class LoadingScreen extends StatefulWidget {
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
-  final String urlString = 'https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=3b7aee780a787b015e121593fedeb197';
-  void getGeoLocation() async { 
-    try {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-      print(position);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void getHttpResp() async {
-    var url = Uri.parse(urlString);
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var temperature = jsonDecode(response.body)['main']['temp'];
-      var weather = jsonDecode(response.body)['weather'][0]['id'];
-      var name = jsonDecode(response.body)['name'];
-      print(weather.runtimeType);
-      print('$weather, $temperature, $name');
-    } else {
-      print('Response status: ${response.statusCode}');
-    }
-  }
 
 
 
@@ -61,8 +38,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await currentLoc.getCurrentGeoLocation();
     print(currentLoc.Latitude);
     print(currentLoc.Longitude);
-
-    var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=${currentLoc.Latitude}&lon=${currentLoc.Longitude}&appid=3b7aee780a787b015e121593fedeb197');
+    
+    //2. construct URL
+    var url = Uri(
+      scheme: "https",
+      host: 'api.openweathermap.org',
+      path: '/data/2.5/weather',
+      queryParameters: { "lat" : "${currentLoc.Latitude}", "lon" : "${currentLoc.Longitude}", "appid" : "3b7aee780a787b015e121593fedeb197" },
+      );
+      print(url.toString());
+    // var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=${currentLoc.Latitude}&lon=${currentLoc.Longitude}&appid=3b7aee780a787b015e121593fedeb197');
+    
+    //3. get json output from HTTP.get Class below
     HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(url);
     var weatherData = await jsonOut.getApi();
     print(weatherData.toString());
@@ -78,8 +65,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         body: Center(child: Column(
           children: [
             SpinKitWave(size: 100, color: Colors.white),
-            Text("auto directing to \n $urlString"),
-            TextButton(onPressed: () {getGeoLocation();}, child: Text("click me"))
+            TextButton(onPressed: () {}, child: Text("click me"))
           ],
         ))
     );
