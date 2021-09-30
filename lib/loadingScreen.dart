@@ -6,15 +6,9 @@ import 'locationWeatherScreen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
-  const LoadingScreen({ Key? key }) : super(key: key);
-
-  
-
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
-
-
 
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
@@ -23,14 +17,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     getClass_Location_and_HttpAPI_JsonDecode();
   }
 
-  // void getClassLoc() async {
-  //   Location currentLoc = Location();
-  //   await currentLoc.getCurrentGeoLocation();
-  //   print(currentLoc.Latitude);
-  //   print(currentLoc.Longitude);
-  //   print(_geoloc[0]);
-  //   print(_geoloc[1]);
-  //}
 
   void getClass_Location_and_HttpAPI_JsonDecode() async {
     //1 . get location from Class Location below
@@ -44,11 +30,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
       scheme: "https",
       host: 'api.openweathermap.org',
       path: '/data/2.5/weather',
-      queryParameters: { "lat" : "${currentLoc.Latitude}", "lon" : "${currentLoc.Longitude}", "appid" : "3b7aee780a787b015e121593fedeb197" },
+      queryParameters: { "lat" : "${currentLoc.Latitude}", 
+                        "lon" : "${currentLoc.Longitude}", 
+                        "appid" : "3b7aee780a787b015e121593fedeb197",
+                        "units" : "metric" },
       );
       print(url.toString());
     // var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=${currentLoc.Latitude}&lon=${currentLoc.Longitude}&appid=3b7aee780a787b015e121593fedeb197');
-    
+
     //3. get json output from HTTP.get Class below
     HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(url);
     var weatherData = await jsonOut.getApi();

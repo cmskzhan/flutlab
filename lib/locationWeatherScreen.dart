@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'weather.dart';
 
 class LocationWeather extends StatefulWidget {
   final locationWeather;
@@ -9,9 +10,13 @@ class LocationWeather extends StatefulWidget {
 }
 
 class _LocationWeatherState extends State<LocationWeather> {
-  var temperature;
+  
+  late int temperature;
   var weather;
   var cityname;
+  WeatherModel wd = WeatherModel();
+  var weatherIcon;
+  late String greeting;
 
   @override
   void initState() {
@@ -25,6 +30,8 @@ class _LocationWeatherState extends State<LocationWeather> {
     weather = weatherData['weather'][0]['id'];
     cityname = weatherData['name'];
 
+    weatherIcon = wd.getWeatherIcon(weather);
+    greeting = wd.getMessage(temperature);
   }
 
   Widget build(BuildContext context) {
@@ -50,10 +57,10 @@ class _LocationWeatherState extends State<LocationWeather> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(temperature.toString(), style: TextStyle(fontSize: 100), textAlign: TextAlign.right,),
-                Text("☀️", style: TextStyle(fontSize: 100),)
+                Text(weatherIcon, style: TextStyle(fontSize: 100),)
               ],
             ),),
-            Padding(padding: EdgeInsets.only(right: 14.8), child: Text("It's 🍦 time in $cityname", style: TextStyle(fontSize: 25),),)
+            Padding(padding: EdgeInsets.only(right: 14.8), child: Text("$greeting in $cityname", style: TextStyle(fontSize: 22),),)
           ],
         ),),),
     );
