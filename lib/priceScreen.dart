@@ -13,22 +13,39 @@ class _PriceScreenState extends State<PriceScreen> {
 
   String selectedValue = currenciesList[5];
 
-  List<DropdownMenuItem<String>> getDropdownItems() {
-    List<DropdownMenuItem<String>> dropdownItems = [];
-    for (var i in currenciesList) {
+  DropdownButton<String> androidDropDown(List<String>  itemz) {
+    List<DropdownMenuItem<String>> dropdownItems  = [];
+    for (var i in itemz) {
       DropdownMenuItem<String> newItem = DropdownMenuItem(child: Text(i), value: i);
       dropdownItems.add(newItem);
     }
-    return dropdownItems;
+    return DropdownButton<String> (
+      value: selectedValue,
+      items: dropdownItems,
+      onChanged: (dropdownSelected){
+        setState(() {
+          selectedValue = dropdownSelected.toString();
+        });
+        print(selectedValue);
+      }
+      );
   }
 
-  List<Widget> getCupertinoPickerItems() {
+
+  CupertinoPicker iOSPicker(List<String> itemz) {
     List<Widget> pickerItems = [];
-    for (String i in currenciesList) {
+    for (String i in itemz) {
       Widget newItem = Text(i);
       pickerItems.add(newItem);
     }
-    return pickerItems;
+    return CupertinoPicker(
+              itemExtent: 32, 
+              onSelectedItemChanged: (selectedIndex) {
+                print(selectedIndex);
+            },
+              children: pickerItems,
+              scrollController: FixedExtentScrollController(initialItem: 5), //initialItem
+            );
   }
 
 
@@ -53,13 +70,7 @@ class _PriceScreenState extends State<PriceScreen> {
             height: 150,
             alignment: Alignment.center,
             color: Colors.lightBlue,
-            child: CupertinoPicker(
-              itemExtent: 32, 
-              onSelectedItemChanged: (selectedValue) {
-                print(selectedValue);
-            },
-              children: getCupertinoPickerItems(),
-            ),
+            child: androidDropDown(currenciesList)
           )
         ],
       ),
