@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'coinData.dart';
+import 'package:flutter/cupertino.dart';
 
 class PriceScreen extends StatefulWidget {
   const PriceScreen({ Key? key }) : super(key: key);
@@ -12,12 +13,6 @@ class _PriceScreenState extends State<PriceScreen> {
 
   String selectedValue = currenciesList[5];
 
-  void getCurrenciesList () {
-    for ( var i in currenciesList ){
-      print(i);
-    }
-  }
-
   List<DropdownMenuItem<String>> getDropdownItems() {
     List<DropdownMenuItem<String>> dropdownItems = [];
     for (var i in currenciesList) {
@@ -27,9 +22,18 @@ class _PriceScreenState extends State<PriceScreen> {
     return dropdownItems;
   }
 
+  List<Widget> getCupertinoPickerItems() {
+    List<Widget> pickerItems = [];
+    for (String i in currenciesList) {
+      Widget newItem = Text(i);
+      pickerItems.add(newItem);
+    }
+    return pickerItems;
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    getCurrenciesList();
     return Scaffold(
       appBar: AppBar(title: Text('Crypto Coins Ticker'),),
       body: Column(
@@ -49,16 +53,12 @@ class _PriceScreenState extends State<PriceScreen> {
             height: 150,
             alignment: Alignment.center,
             color: Colors.lightBlue,
-            child: DropdownButton<String>(
-              value: selectedValue, // has to be the value below
-              items: getDropdownItems(),
-              onChanged: (dropDownSelected) {
-                setState(() {
-                  selectedValue = dropDownSelected.toString();
-                  print(selectedValue);
-                });
-
-              },
+            child: CupertinoPicker(
+              itemExtent: 32, 
+              onSelectedItemChanged: (selectedValue) {
+                print(selectedValue);
+            },
+              children: getCupertinoPickerItems(),
             ),
           )
         ],
