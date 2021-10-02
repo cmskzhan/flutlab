@@ -26,9 +26,11 @@ class WeatherModel {
       return 'Time for shorts and 👕';
     } else if (temp < 10) {
       return 'You\'ll need 🧣 and 🧤';
-    } else {
+    } else if (temp < -273){
+      return 'ERROR ';
+    } else
       return 'Bring a 🧥 just in case';
-    }
+    
   }
 
   // Future<dynamic> GetNewLocationWeather() async {

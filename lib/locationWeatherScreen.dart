@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'weather.dart';
 import 'GPSandAPI.dart';
+import 'inputLocatonGetWeather.dart';
 
 class LocationWeather extends StatefulWidget {
   final locationWeather;
@@ -57,6 +58,11 @@ class _LocationWeatherState extends State<LocationWeather> {
     //3. get json output from HTTP.get Class below
     HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(url);
     var weatherData = await jsonOut.getApi();
+    if (weatherData == null) {
+      temperature = -274;
+      weather = 0;
+      cityname = " GPS or API failed";
+    }
     print(weatherData.toString());
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LocationWeather(locationWeather: weatherData,);
@@ -83,7 +89,11 @@ class _LocationWeatherState extends State<LocationWeather> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(onPressed: () {updateGPSandWeather();}, child: Icon(Icons.near_me, size: 50.0,),),
-                TextButton(onPressed: () {}, child: Icon(Icons.location_city, size: 50.0,),),
+                TextButton(onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return CityScreen();
+                      }));
+                }, child: Icon(Icons.location_city, size: 50.0,),),
               ],
             ),
             Padding(padding: EdgeInsets.fromLTRB(20, 20, 20, 20), child: Row(
