@@ -89,10 +89,11 @@ class _LocationWeatherState extends State<LocationWeather> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(onPressed: () {updateGPSandWeather();}, child: Icon(Icons.near_me, size: 50.0,),),
-                TextButton(onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                TextButton(onPressed: () async {
+                      var typeName = await Navigator.push(context, MaterialPageRoute(builder: (context) {
                       return CityScreen();
                       }));
+                      print("returned pop value is $typeName");
                 }, child: Icon(Icons.location_city, size: 50.0,),),
               ],
             ),

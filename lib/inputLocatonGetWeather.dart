@@ -8,6 +8,8 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
+  String cityName = "Japan";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +28,7 @@ class _CityScreenState extends State<CityScreen> {
               padding: EdgeInsets.all(20), 
               child: TextField(
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
-                onChanged: (value) {print(value);},
+                onChanged: (inputText) {print(inputText); cityName = inputText;},
                 decoration: InputDecoration(
                   fillColor: Colors.white, 
                   hintText: "Enter City Name",  
@@ -35,7 +37,7 @@ class _CityScreenState extends State<CityScreen> {
                   icon: Icon(Icons.location_city),
                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
               ),),
-            TextButton(onPressed: () {}, child: Text("Get Weather", style: TextStyle(fontSize: 50),))
+            TextButton(onPressed: () {Navigator.pop(context, cityName);}, child: Text("Get Weather", style: TextStyle(fontSize: 50),))
           ],
         ),),),
     );
