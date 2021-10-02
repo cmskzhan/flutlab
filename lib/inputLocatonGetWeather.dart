@@ -28,7 +28,7 @@ class _CityScreenState extends State<CityScreen> {
               padding: EdgeInsets.all(20), 
               child: TextField(
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
-                onChanged: (inputText) {print(inputText); cityName = inputText;},
+                onChanged: (inputText) {cityName = inputText;},
                 decoration: InputDecoration(
                   fillColor: Colors.white, 
                   hintText: "Enter City Name",  

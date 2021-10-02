@@ -28,12 +28,14 @@ class _LocationWeatherState extends State<LocationWeather> {
   }
 
   void updateUI(dynamic weatherData) {
-    temperature = weatherData['main']['temp'].toInt(); //get rid of decimal
-    weather = weatherData['weather'][0]['id'];
-    cityname = weatherData['name'];
-
-    weatherIcon = wd.getWeatherIcon(weather);
-    greeting = wd.getMessage(temperature);
+    setState(() {
+      temperature = weatherData['main']['temp'].toInt(); //get rid of decimal
+      weather = weatherData['weather'][0]['id'];
+      cityname = weatherData['name'];
+      
+      weatherIcon = wd.getWeatherIcon(weather);
+      greeting = wd.getMessage(temperature);
+    });
 
   }
 
@@ -69,7 +71,17 @@ class _LocationWeatherState extends State<LocationWeather> {
       }));
   }
 
-
+  Uri updateCityURL(String city) {
+      var url = Uri(
+      scheme: "https",
+      host: 'api.openweathermap.org',
+      path: '/data/2.5/weather',
+      queryParameters: {  
+                  "q" : city, 
+                  "appid" : "3b7aee780a787b015e121593fedeb197",
+                  "units" : "metric" });
+      return url;
+  }
 
 
 
@@ -94,6 +106,11 @@ class _LocationWeatherState extends State<LocationWeather> {
                       return CityScreen();
                       }));
                       print("returned pop value is $typeName");
+                      var newCityWeatherUrl = updateCityURL(typeName);
+                      HttpGet_JsonDecode jsonOut = HttpGet_JsonDecode(newCityWeatherUrl);
+                      var weatherData = await jsonOut.getApi();
+                      print(weatherData.toString());
+                      updateUI(weatherData);
                 }, child: Icon(Icons.location_city, size: 50.0,),),
               ],
             ),
