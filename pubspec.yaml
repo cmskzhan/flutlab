@@ -1,5 +1,5 @@
-name: helloworld2
-description: A new Flutter project.
+name: crypto_ticker
+description: A Flutter proj
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -41,8 +41,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-   - images/
+  # assets:
+  #  - images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

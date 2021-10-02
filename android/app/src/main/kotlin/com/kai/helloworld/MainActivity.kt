@@ -1,4 +1,4 @@
-package com.kai.helloworld
+package com.kai.crypto_ticker
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
