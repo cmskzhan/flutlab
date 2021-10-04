@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'coinData.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:io' show Platform; //only use Platform, as oppose to hide
 
 class PriceScreen extends StatefulWidget {
   const PriceScreen({ Key? key }) : super(key: key);
@@ -48,6 +49,14 @@ class _PriceScreenState extends State<PriceScreen> {
             );
   }
 
+  Widget getPicker(){ //Platform.isIOS?true:false
+    if (Platform.isIOS)
+    {return iOSPicker(currenciesList);}
+    else if (Platform.isAndroid)
+    {return androidDropDown(currenciesList);}
+    return androidDropDown(currenciesList);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +79,7 @@ class _PriceScreenState extends State<PriceScreen> {
             height: 150,
             alignment: Alignment.center,
             color: Colors.lightBlue,
-            child: androidDropDown(currenciesList)
+            child: Platform.isIOS?iOSPicker(currenciesList):androidDropDown(currenciesList)
           )
         ],
       ),
