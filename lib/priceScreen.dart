@@ -14,14 +14,15 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
 
-  String selectedValue = currenciesList[4];
+  String fiat = currenciesList[4];
   double price = 0.0;
   String crypto = cryptoList[0];
 
-  void updateUI({required double p, required String c}){
+  void updateUI({required double p, required String c, required String sc }){
     setState(() {
       price = p;
-      selectedValue = c;
+      fiat = c;
+      crypto = sc;
     });
 
   }
@@ -33,17 +34,18 @@ class _PriceScreenState extends State<PriceScreen> {
       dropdownItems.add(newItem);
     }
     return DropdownButton<String> (
-      value: selectedValue,
+      value: (itemz[0] == 'BTC')?crypto:fiat,
       items: dropdownItems,
       onChanged: (dropdownSelected){
         setState(() {
-          selectedValue = dropdownSelected.toString();
+          (itemz[0] == 'BTC')?crypto = dropdownSelected.toString():fiat = dropdownSelected.toString();
         });
-        print(selectedValue);
         getJsonPrice(getHttpResp());
       }
       );
   }
+
+
 
 
   CupertinoPicker iOSPicker(List<String> itemz) {
@@ -55,12 +57,11 @@ class _PriceScreenState extends State<PriceScreen> {
     return CupertinoPicker(
               itemExtent: 32, 
               onSelectedItemChanged: (selectedIndex) {
-                selectedValue = currenciesList[selectedIndex];
-                print(selectedValue);
+                (itemz[0] == 'BTC')?crypto = cryptoList[selectedIndex]:fiat = currenciesList[selectedIndex];
                 getJsonPrice(getHttpResp());
             },
               children: pickerItems,
-              scrollController: FixedExtentScrollController(initialItem: 4), //initialItem
+              scrollController: FixedExtentScrollController(initialItem: 0), //initialItem
             );
   }
 
@@ -73,7 +74,7 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   Future<String> getHttpResp() async {
-    String urlString = "https://api.cryptonator.com/api/ticker/$crypto-$selectedValue";
+    String urlString = "https://api.cryptonator.com/api/ticker/$crypto-$fiat";
     var url = Uri.parse(urlString);
     var response = await http.get(url);
     print(response.body);
@@ -83,8 +84,8 @@ class _PriceScreenState extends State<PriceScreen> {
 
   void getJsonPrice(jsonInput) async {
     String priceInString = jsonDecode(await jsonInput)['ticker']["price"];
-    print(double.parse(priceInString)*2);
-    updateUI(p: double.parse(priceInString)*2, c: selectedValue);
+    print(double.parse(priceInString));
+    updateUI(p: double.parse(priceInString)*2, c: fiat, sc: crypto);
   }
 
   @override
@@ -102,21 +103,29 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Container(
+            height: 150,
+            alignment: Alignment.center,
+            color: Colors.lightBlue,
+            // child: Platform.isIOS?iOSPicker(cryptoList):androidDropDown(cryptoList)
+            child: iOSPicker(cryptoList),
+          ),
+
           Padding(padding: EdgeInsets.fromLTRB(18, 18, 18, 0),
           child: Card(
             color: Colors.lightBlueAccent, elevation: 5,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: Padding(padding: EdgeInsets.symmetric(
               vertical: 15, horizontal: 28),
-              child: Text('2$crypto = $price $selectedValue', style: TextStyle(fontSize: 20, color: Colors.white), textAlign: TextAlign.center,),),
+              child: Text('2$crypto = $price $fiat', style: TextStyle(fontSize: 20, color: Colors.white), textAlign: TextAlign.center,),),
             ),),
           
           Container(
             height: 150,
             alignment: Alignment.center,
             color: Colors.lightBlue,
-            //child: Platform.isIOS?iOSPicker(currenciesList):androidDropDown(currenciesList)
-            child: iOSPicker(currenciesList),
+            child: Platform.isIOS?iOSPicker(currenciesList):androidDropDown(currenciesList)
+            // child: iOSPicker(currenciesList),
           )
         ],
       ),

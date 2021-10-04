@@ -6,15 +6,12 @@ const List<String> currenciesList = [
   'GBP',
   'IDR',
   'JPY',
-  'MXN',
-  'NOK',
-  'NZD',
+  'USD',
   'PLN',
   'RON',
   'RUB',
   'SEK',
   'SGD',
-  'USD',
   'ZAR'
 ];
 
