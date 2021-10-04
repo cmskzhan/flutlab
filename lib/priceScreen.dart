@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'coinData.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform; //only use Platform, as oppose to hide
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class PriceScreen extends StatefulWidget {
   const PriceScreen({ Key? key }) : super(key: key);
@@ -12,7 +14,17 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
 
-  String selectedValue = currenciesList[5];
+  String selectedValue = currenciesList[4];
+  double price = 0.0;
+  String crypto = cryptoList[0];
+
+  void updateUI({required double p, required String c}){
+    setState(() {
+      price = p;
+      selectedValue = c;
+    });
+
+  }
 
   DropdownButton<String> androidDropDown(List<String>  itemz) {
     List<DropdownMenuItem<String>> dropdownItems  = [];
@@ -28,6 +40,7 @@ class _PriceScreenState extends State<PriceScreen> {
           selectedValue = dropdownSelected.toString();
         });
         print(selectedValue);
+        getJsonPrice(getHttpResp());
       }
       );
   }
@@ -42,10 +55,12 @@ class _PriceScreenState extends State<PriceScreen> {
     return CupertinoPicker(
               itemExtent: 32, 
               onSelectedItemChanged: (selectedIndex) {
-                print(selectedIndex);
+                selectedValue = currenciesList[selectedIndex];
+                print(selectedValue);
+                getJsonPrice(getHttpResp());
             },
               children: pickerItems,
-              scrollController: FixedExtentScrollController(initialItem: 5), //initialItem
+              scrollController: FixedExtentScrollController(initialItem: 4), //initialItem
             );
   }
 
@@ -55,6 +70,27 @@ class _PriceScreenState extends State<PriceScreen> {
     else if (Platform.isAndroid)
     {return androidDropDown(currenciesList);}
     return androidDropDown(currenciesList);
+  }
+
+  Future<String> getHttpResp() async {
+    String urlString = "https://api.cryptonator.com/api/ticker/$crypto-$selectedValue";
+    var url = Uri.parse(urlString);
+    var response = await http.get(url);
+    print(response.body);
+    //print(jsonDecode(response.body)['ticker']['price']);
+    return response.body;
+  }
+
+  void getJsonPrice(jsonInput) async {
+    String priceInString = jsonDecode(await jsonInput)['ticker']["price"];
+    print(double.parse(priceInString)*2);
+    updateUI(p: double.parse(priceInString)*2, c: selectedValue);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getJsonPrice(getHttpResp());
   }
 
 
@@ -72,14 +108,15 @@ class _PriceScreenState extends State<PriceScreen> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: Padding(padding: EdgeInsets.symmetric(
               vertical: 15, horizontal: 28),
-              child: Text('1BTC = ? USD', style: TextStyle(fontSize: 20, color: Colors.white), textAlign: TextAlign.center,),),
+              child: Text('2$crypto = $price $selectedValue', style: TextStyle(fontSize: 20, color: Colors.white), textAlign: TextAlign.center,),),
             ),),
           
           Container(
             height: 150,
             alignment: Alignment.center,
             color: Colors.lightBlue,
-            child: Platform.isIOS?iOSPicker(currenciesList):androidDropDown(currenciesList)
+            //child: Platform.isIOS?iOSPicker(currenciesList):androidDropDown(currenciesList)
+            child: iOSPicker(currenciesList),
           )
         ],
       ),
