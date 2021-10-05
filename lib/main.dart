@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld2/menuDrawer.dart';
 
 void main() => runApp(
       MaterialApp(
         home: Scaffold(
           backgroundColor: Colors.amberAccent,
+          drawer: MenuDraw(),
           appBar: AppBar(
             title: Text('I Am Rich'),
             backgroundColor: Colors.redAccent,
