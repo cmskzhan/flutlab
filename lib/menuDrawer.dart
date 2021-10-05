@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld2/page1.dart';
+import 'package:helloworld2/page2.dart';
 
 class MenuDraw extends StatelessWidget {
   const MenuDraw({ Key? key }) : super(key: key);
@@ -13,8 +15,22 @@ class MenuDraw extends StatelessWidget {
     List<Widget> menuItems = [];
     menuItems.add(DrawerHeader(child: Text("KKK"))); //add header to menuItems
     menuTitles.forEach((element) { // add sub page titles
+      Widget screen= Container();  //why?
       menuItems.add(ListTile(
         title: Text(element),
+        onTap:() {
+          switch (element) {
+            case "Page One":
+              screen = Page1();
+              break;
+            case "Page Two":
+              screen = Page2();
+              break;
+            //default:
+          }
+          Navigator.pop(context); //add it so after return from page1, menu won't be open
+          Navigator.push(context, MaterialPageRoute(builder: (context) {return screen;}));
+        },
       ));
       });
       return menuItems;

@@ -6,7 +6,7 @@ class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Text("Page One"),
+      appBar: AppBar(title: Text("Page One")) ,
       body: FlutterLogo(textColor: Colors.amber,),
       
     );
