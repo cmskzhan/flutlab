@@ -3,9 +3,14 @@ import 'package:helloworld2/menuDrawer.dart';
 
 void main() => runApp(
       MaterialApp(
+        //routes: {},
         home: Scaffold(
           backgroundColor: Colors.amberAccent,
           drawer: MenuDraw(),
+          bottomNavigationBar: BottomNavigationBar(items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.monitor), label: 'P1')
+          ],),
           appBar: AppBar(
             title: Text('I Am Rich'),
             backgroundColor: Colors.redAccent,
