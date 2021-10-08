@@ -26,8 +26,10 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-
-gender? tappedGender;
+  bool isMale = true;
+  bool isFemale = false;
+  List<bool> gender = [true, false]; // won't allow me to assign gender=[isMale, isFemale]
+                                     // alternatively use initState to initialize gender list
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +41,24 @@ gender? tappedGender;
         children: [
           Expanded(
             child: Row(
-              children: [
-                Expanded(child: MyContainer(
-                  onPress: () {setState(() {
-                    tappedGender=gender.female;
-                    print("female pressed");
-                  });},
-                  c: tappedGender == gender.female ? activeCardColor : inactiveCardColor,
-                  cardChild: GenderCard("Female", Icons.female),
-                )),
-                Expanded(child: MyContainer(
-                  onPress: () {setState(() {
-                    tappedGender=gender.male;
-                    print("pressed male");
-                  });},
-                  c: tappedGender == gender.male ? activeCardColor : inactiveCardColor,
-                  cardChild: GenderCard("Male", Icons.male_rounded),
-                )),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [ToggleButtons(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("Male",   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),),),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("Female", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),),),
+                ],
+                isSelected: gender,
+                onPressed: (value) {
+                  if (value == 0) { isMale = true; isFemale = false; print("male selected");}
+                  else { isMale = false; isFemale = true;  print("female selected");}
+                  setState(() {
+                    gender = [isMale, isFemale];
+                  });
+                },)
               ],
             ),
           ),
