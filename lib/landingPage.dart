@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld2/bottomNavBar.dart';
 import 'menuDrawer.dart';
 
 class LandingPage extends StatelessWidget {
@@ -6,9 +7,7 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        //routes: {},
-        home: Scaffold(
+    return Scaffold(         
           backgroundColor: Colors.amberAccent,
           drawer: MenuDraw(),        
           appBar: AppBar(
@@ -45,27 +44,28 @@ class LandingPage extends StatelessWidget {
               ],
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.monitor), label: 'P1'),
-            BottomNavigationBarItem(icon: Icon(Icons.monitor), label: 'P2')
-          ],
-            onTap: (int index) {
-              switch (index) {
-                case 0: 
-                  Navigator.pushNamed(context, '/');                  
-                  break;
-                 case 1: 
-                  Navigator.pushNamed(context, '/first');                  
-                  break;
-                case 2: 
-                  Navigator.pushNamed(context, '/second');                  
-                  break;
-              }
-
-          }),
-        ),
+          bottomNavigationBar: BottomNavBar(),
+          // bottomNavigationBar: BottomNavigationBar(
+          //   items: [
+          //   BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          //   BottomNavigationBarItem(icon: Icon(Icons.monitor), label: 'P1'),
+          //   BottomNavigationBarItem(icon: Icon(Icons.monitor), label: 'P2')
+          // ],
+          //   // onTap: (int index) {
+          //   //   switch (index) {
+          //   //     case 0: 
+          //   //       Navigator.pushNamed(context, '/');                  
+          //   //       break;
+          //   //      case 1: 
+          //   //       Navigator.pushNamed(context, '/first');                  
+          //   //       break;
+          //   //     case 2: 
+          //   //       Navigator.pushNamed(context, '/second');                  
+          //   //       break;
+          //   //   }
+          //   //}
+          // ),
+        
       );
   }
 }
