@@ -11,7 +11,8 @@ const inactiveCardColor = Color(0xFF111328);
 int initialTall = 180;
 int initialHeavy = 50;
 int initialAge = 21;
-enum gender {male, female}
+bool isMale = true;
+bool isFemale = false;
 
 const labelTextStyle =  TextStyle(fontSize: 18, color: Colors.white30);
 
@@ -21,15 +22,14 @@ const boldNumberStyle = TextStyle(fontSize: 60, color: Colors.white, fontWeight:
 class InputPage extends StatefulWidget {
 
 
+
   @override
   _InputPageState createState() => _InputPageState();
 }
 
 class _InputPageState extends State<InputPage> {
-  bool isMale = true;
-  bool isFemale = false;
-  List<bool> gender = [true, false]; // won't allow me to assign gender=[isMale, isFemale]
-                                     // alternatively use initState to initialize gender list
+
+  List<bool> gender = [isMale, false, isFemale]; 
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +46,18 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text("Male",   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),),),
+                    child: Icon(Icons.male, size: 80,)),
+                  SizedBox(width: 20),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text("Female", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),),),
+                    child: Icon(Icons.female, size: 80,)),
                 ],
                 isSelected: gender,
                 onPressed: (value) {
                   if (value == 0) { isMale = true; isFemale = false; print("male selected");}
                   else { isMale = false; isFemale = true;  print("female selected");}
                   setState(() {
-                    gender = [isMale, isFemale];
+                    gender = [isMale, false, isFemale];
                   });
                 },)
               ],
