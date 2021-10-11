@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
+import 'AddItemPage/input.dart';
+
 
 class SharedPreferencesDemo extends StatefulWidget {
   SharedPreferencesDemo({Key? key}) : super(key: key);
@@ -74,17 +76,23 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
             onPressed: _incrementCounter,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
+            heroTag: "btn1",
           ),
           FloatingActionButton(
             onPressed: _decrementCounter,
             tooltip: 'Decrement',
-            child: const Icon(Icons.remove)
+            child: const Icon(Icons.remove),
+            heroTag: "btn2",
           ),
           SizedBox(width: 15,),
           FloatingActionButton.extended(
-            onPressed: () {}, 
-            label: Text("Next"),
-            icon: Icon(Icons.navigate_next_outlined),)
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {return InputScreen();}));
+              },
+              icon: Icon(Icons.next_plan),
+              label: Text("Next.."),
+
+            )
         ],
       ),
     );
