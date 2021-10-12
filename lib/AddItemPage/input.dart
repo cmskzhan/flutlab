@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'sp_helper.dart';
-import 'session.dart';
+// import 'sp_helper.dart';
+// import 'session.dart';
 
 class InputScreen extends StatefulWidget {
   const InputScreen({ Key? key }) : super(key: key);
@@ -10,6 +10,8 @@ class InputScreen extends StatefulWidget {
 }
 
 class _InputScreenState extends State<InputScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,10 +20,27 @@ class _InputScreenState extends State<InputScreen> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Add',
         child: Icon(Icons.add_to_drive),
-        onPressed: () {},
+        onPressed: () {showInputDialog(context);},
       ),
 
       
     );
   }
+
+
+  Future<dynamic> showInputDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Input time, location, service, duration"),
+          content: SingleChildScrollView(
+            child: TextField(
+              ),),
+
+        );
+      }
+    );
+  }
 }
+
