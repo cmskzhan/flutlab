@@ -13,6 +13,15 @@ class SPHelper {
     prefs.setString(session.id.toString(), json.encode(session.toJson()));
   }
 
-
+  List<Session> getSessions() {
+    List<Session> ss = [];
+    Set<String> keys = prefs.getKeys(); //set is un-ordered list. 
+    print(keys);
+    keys.forEach((k) {
+      Session session  = Session.fromJson(json.decode(prefs.getString(k)??''));
+      ss.add(session);
+     });
+     return ss;
+  }
 
 }
