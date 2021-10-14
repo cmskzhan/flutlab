@@ -26,6 +26,7 @@ class _Demo2State extends State<Demo2> {
 
   @override
   Widget build(BuildContext context) {
+    String showtxt2 = preferences?.getString("name")??"null";
     return Scaffold(
       appBar: AppBar(title: Text("test shared_pref package"),),
       body: Column(children: [
@@ -36,6 +37,7 @@ class _Demo2State extends State<Demo2> {
                 decoration: InputDecoration(hintText: "txt1"),
               ),
             ),
+        
         Padding(padding: EdgeInsets.all(15),
                 child: Row(
                   children: [
@@ -43,13 +45,15 @@ class _Demo2State extends State<Demo2> {
                     TextButton(
                       onPressed: () {
                         setState(() {
+                          preferences?.setString("name", txt1.text)??showtxt1;
                           showtxt1 = txt1.text;
                         });
                         }, 
                       child: Text("show"))
                   ],
                 ),),
-                Text('The user is ${preferences?.getString("name")}')
+        Text('The shared_preferences locally stored value is $showtxt2'),
+                
       
       ],)
       
