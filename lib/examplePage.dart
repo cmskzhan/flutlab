@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'AddItemPage/input.dart';
+import 'AddItemPage/demo.dart';
 
 
 class SharedPreferencesDemo extends StatefulWidget {
@@ -87,10 +87,10 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
           SizedBox(width: 15,),
           FloatingActionButton.extended(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {return InputScreen();}));
+              Navigator.push(context, MaterialPageRoute(builder: (context) {return DemoScreen();}));
               },
               icon: Icon(Icons.next_plan),
-              label: Text("Next.."),
+              label: Text("Demo.."),
 
             )
         ],
