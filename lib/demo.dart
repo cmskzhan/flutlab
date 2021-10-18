@@ -12,11 +12,23 @@ class _Demo2State extends State<Demo2> {
   final TextEditingController txt1 = TextEditingController();
   String showtxt1 = "initial value";
   SharedPreferences? preferences;
+  int count=1;
 
     Future<void> initializePreference() async{
      preferences = await SharedPreferences.getInstance();
-     preferences?.setString("name", "Peter");
+     preferences?.setString(count.toString(), "Peter");
     }
+
+    void printStorage() async {
+
+        for (int i=1; i<=count; i++) {
+          preferences = await SharedPreferences.getInstance();
+          String _displayAllLocal = preferences?.getString(i.toString())??"null";
+          String _displayAllLocal_withIndex = i.toString() + ": " + _displayAllLocal + "\n";
+          print(_displayAllLocal_withIndex);
+      }
+    }
+
 
   @override
   void initState() {
@@ -26,7 +38,7 @@ class _Demo2State extends State<Demo2> {
 
   @override
   Widget build(BuildContext context) {
-    String showtxt2 = preferences?.getString("name")??"null";
+    String showtxt2 = preferences?.getString(count.toString())??"null";
     return Scaffold(
       appBar: AppBar(title: Text("test shared_pref package"),),
       body: Column(children: [
@@ -44,17 +56,17 @@ class _Demo2State extends State<Demo2> {
                     Text(showtxt1),
                     TextButton(
                       onPressed: () {
+                        count++;
+                        printStorage();
                         setState(() {
-                          preferences?.setString("name", txt1.text)??showtxt1;
                           showtxt1 = txt1.text;
+                          preferences?.setString(count.toString(), showtxt2 +"\n"+txt1.text)??showtxt1;
                         });
                         }, 
                       child: Text("show"))
                   ],
                 ),),
-        Text('The shared_preferences locally stored value is $showtxt2'),
-                
-      
+        Text('The shared_preferences locally stored value is $showtxt2')
       ],)
       
     );
