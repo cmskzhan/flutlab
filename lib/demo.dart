@@ -38,6 +38,11 @@ class _Demo2State extends State<Demo2> {
       }
     }
 
+    String clearStorage()  {
+      preferences!.clear();
+      return "";
+    }
+
 
   @override
   void initState() {
@@ -75,9 +80,10 @@ class _Demo2State extends State<Demo2> {
                       child: Text("show"))
                   ],
                 ),),
-        Text('The shared_preferences locally stored value is $showtxt2')
-      ],)
-      
+        Text('The shared_preferences locally stored value is $showtxt2'),
+        TextButton(onPressed: (){showtxt2 = clearStorage();}, child: Text("clear"))
+      ],),
+      floatingActionButton: FloatingActionButton(onPressed: (){}, child: Icon(Icons.add),),
     );
   }
 }
