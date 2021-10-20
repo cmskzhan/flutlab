@@ -23,10 +23,10 @@ class _Demo2State extends State<Demo2> {
     preferences?.setString(count.toString(), "Peter");
   }
 
-  String clearStorage()  {
-    preferences!.clear();
-    return "";
-  }
+  // String clearStorage()  {
+  //   preferences!.clear(); //! indicates I'm sure it won't be null
+  //   return "";
+  // }
 
   read(String key) async {
     final prefs = await SharedPreferences.getInstance();
@@ -43,7 +43,21 @@ class _Demo2State extends State<Demo2> {
     prefs.remove(key);
   }
 
+  clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
 
+  void printStorageContent() async {
+    final prefs = await SharedPreferences.getInstance();
+    final keys = prefs.getKeys();
+    for (String key in keys) {
+      print(key);
+      print(prefs.getString(key));
+    }
+
+
+  }
 
 
   @override
@@ -56,7 +70,16 @@ class _Demo2State extends State<Demo2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("test shared_pref package"),),
-      body: Text("placeholder"),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              TextButton(onPressed: () {printStorageContent();}, child: Text("print all records in console")),
+              TextButton(onPressed: () {clear();}, child: Text("clear all records")),
+            ],
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(onPressed: (){showInputDialog(context);}, child: Icon(Icons.add),),
     );
   }
@@ -95,6 +118,9 @@ class _Demo2State extends State<Demo2> {
       }
     );
   }
+
+
+  
 }
 
 
