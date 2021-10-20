@@ -29,6 +29,15 @@ class _Demo2State extends State<Demo2> {
       }
     }
 
+    void printStorage2() async {
+      final prefs = await SharedPreferences.getInstance();
+      final keys = prefs.getKeys();
+      for (String key in keys) {
+        print(key);
+        print(prefs.getString(key));
+      }
+    }
+
 
   @override
   void initState() {
@@ -57,7 +66,7 @@ class _Demo2State extends State<Demo2> {
                     TextButton(
                       onPressed: () {
                         count++;
-                        printStorage();
+                        printStorage2();
                         setState(() {
                           showtxt1 = txt1.text;
                           preferences?.setString(count.toString(), showtxt2 +"\n"+txt1.text)??showtxt1;
