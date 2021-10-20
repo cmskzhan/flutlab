@@ -4,21 +4,21 @@ class User {
   String username = '';
   int duration = 0;
 
-  User(this.id, this.date, this.username, this.duration);
+  // User(this.id, this.date, this.username, this.duration);
+  User();
 
   User.fromJson(Map<String, dynamic> userField) {
     id = userField['id'] ?? 0;
     date = userField['date'] ?? '';
-    username = userField['description']??'';
+    username = userField['username']??'';
     duration = userField['duration'] ?? 0;
-
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'date': date,
-      'description': username,
+      'username': username,
       'duration': duration
 
     };
