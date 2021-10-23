@@ -48,14 +48,23 @@ class _Demo2State extends State<Demo2> {
     prefs.clear();
   }
 
+  countList() async {
+    final prefs = await SharedPreferences.getInstance();
+    final keys = prefs.getKeys();
+    //print(keys.length);
+    return keys.length;
+    // SharedPreferences? prefs;
+    // final keys = prefs?.getKeys();
+    // print(keys?.length);
+  }
+
   void printStorageContent() async {
     final prefs = await SharedPreferences.getInstance();
     final keys = prefs.getKeys();
     for (String key in keys) {
       print(key);
-      print(prefs.getString(key));
+      print(prefs.get(key).toString());
     }
-
 
   }
 
@@ -76,8 +85,10 @@ class _Demo2State extends State<Demo2> {
             children: [
               TextButton(onPressed: () {printStorageContent();}, child: Text("print all records in console")),
               TextButton(onPressed: () {clear();}, child: Text("clear all records")),
+              TextButton(onPressed: () {print(countList());}, child: Text("records no")),
             ],
           ),
+          // ListView.builder(itemBuilder: getUsrs())
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){showInputDialog(context);}, child: Icon(Icons.add),),
@@ -98,8 +109,7 @@ class _Demo2State extends State<Demo2> {
                 TextField(controller: txtUsername, decoration: InputDecoration(hintText: "Description"),),
                 TextField(controller: txtDuration, decoration: InputDecoration(hintText: "Duration"),),
               ],
-            ),
-            
+            ),            
             ),
           actions: [
             TextButton(onPressed: () {Navigator.pop(context);}, child: Text('Cancel')),
@@ -118,6 +128,24 @@ class _Demo2State extends State<Demo2> {
       }
     );
   }
+
+List<Widget> getUsrs() {
+  List<Widget> tiles = [];
+  initializePreference();
+  Set<String> keys = preferences?.getKeys()??{};
+  keys.forEach((String key) {
+    tiles.add(
+      Container(
+        child: ListTile(title: Text(key), subtitle: Text(read(key).toString()),),),
+    );
+   });
+
+  
+  return tiles;
+}
+
+  
+
 
 
   
