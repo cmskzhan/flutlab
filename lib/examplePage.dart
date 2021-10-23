@@ -51,24 +51,23 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
       appBar: AppBar(
         title: const Text("SharedPreferences Demo"),
       ),
-      body: Center(
-          child: FutureBuilder<int>(
-              future: _counter,
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const CircularProgressIndicator();
-                  default:
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return Text(
-                        'Button tapped ${snapshot.data} time${snapshot.data == 1 ? '' : 's'}.\n\n'
-                        'This should persist across restarts.',
-                      );
-                    }
+      body: FutureBuilder<int>(
+          future: _counter,
+          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const CircularProgressIndicator();
+              default:
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return Text(
+                    'Button tapped ${snapshot.data} time${snapshot.data == 1 ? '' : 's'}.\n\n'
+                    'This should persist across restarts.',
+                  );
                 }
-              })),
+            }
+          }),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
