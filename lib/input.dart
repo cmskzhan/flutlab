@@ -1,156 +1,55 @@
-import 'package:flutter/material.dart';
-import 'package:helloworld/jsonData.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+// Reference from https://medium.com/mellow-code-labs/future-builders-along-with-listview-builders-in-your-flutter-app-6656976edeb7
 
-class Demo2 extends StatefulWidget {
-  const Demo2({ Key? key }) : super(key: key);
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class ListViewBuilder extends StatefulWidget {
+  const ListViewBuilder({ Key? key }) : super(key: key);
 
   @override
-  _Demo2State createState() => _Demo2State();
+  _ListViewBuilderState createState() => _ListViewBuilderState();
 }
 
-class _Demo2State extends State<Demo2> {
-  SharedPreferences? preferences;
-  int count=1;
+class _ListViewBuilderState extends State<ListViewBuilder> {
 
-  final TextEditingController txtUsername = TextEditingController();
-  final TextEditingController txtDuration = TextEditingController();
-  User userSave = User();
-
-  Future<void> initializePreference() async{
-    preferences = await SharedPreferences.getInstance();
-    preferences?.setString(count.toString(), "Peter");
-  }
-
-  // String clearStorage()  {
-  //   preferences!.clear(); //! indicates I'm sure it won't be null
-  //   return "";
-  // }
-
-  read(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    return json.decode(prefs.getString(key)??"");
-  }
-
-  save(String key, value) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, json.encode(value));
-  }
-
-  remove(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove(key);
-  }
-
-  clear() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-  }
-
-  countList() async {
-    final prefs = await SharedPreferences.getInstance();
-    final keys = prefs.getKeys();
-    //print(keys.length);
-    return keys.length;
-    // SharedPreferences? prefs;
-    // final keys = prefs?.getKeys();
-    // print(keys?.length);
-  }
-
-  void printStorageContent() async {
-    final prefs = await SharedPreferences.getInstance();
-    final keys = prefs.getKeys();
-    for (String key in keys) {
-      print(key);
-      print(prefs.get(key).toString());
-    }
-
-  }
-
-
-  @override
-  void initState() {
-    initializePreference().whenComplete(() {setState(() {});});
-    super.initState();
+  Future getAllTodos() async {
+    var url = Uri.parse('https://jsonplaceholder.typicode.com/todos');
+    final http.Response response = await http.get(url);
+    return json.decode(response.body);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("test shared_pref package"),),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              TextButton(onPressed: () {printStorageContent();}, child: Text("print all records in console")),
-              TextButton(onPressed: () {clear();}, child: Text("clear all records")),
-              TextButton(onPressed: () {print(countList());}, child: Text("records no")),
-            ],
-          ),
-          // ListView.builder(itemBuilder: getUsrs())
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: (){showInputDialog(context);}, child: Icon(Icons.add),),
+      appBar: AppBar(title: Text("ListView Future Demo"),),
+      body: FutureBuilder(
+        builder: (context, AsyncSnapshot snapshot) {
+          // WHILE THE CALL IS BEING MADE AKA LOADING
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          // WHEN THE CALL IS DONE BUT HAPPENS TO HAVE AN ERROR
+          if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
+
+
+          // IF URL WORKS IT GOES HERE!
+          return ListView.separated(
+            separatorBuilder: (BuildContext context, int index) => const Divider(),
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(snapshot.data[index]['title']),
+                subtitle: Text(snapshot.data[index].toString()),
+              );
+            },);
+        },
+        future: getAllTodos(),
+        ),
+      
     );
   }
-
-
-
-  Future<dynamic> showInputDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Input time, location, service, duration"),
-          content: SingleChildScrollView(
-            child: Column(
-              children: [
-                TextField(controller: txtUsername, decoration: InputDecoration(hintText: "Description"),),
-                TextField(controller: txtDuration, decoration: InputDecoration(hintText: "Duration"),),
-              ],
-            ),            
-            ),
-          actions: [
-            TextButton(onPressed: () {Navigator.pop(context);}, child: Text('Cancel')),
-            ElevatedButton(
-              onPressed: (){
-                userSave.id = count;
-                userSave.username=txtUsername.text;
-                userSave.duration=int.parse(txtDuration.text);
-                userSave.date = "2020-10-20";
-                save(txtUsername.text, userSave);
-                count++;
-                Navigator.pop(context);}, 
-              child: Text('Save'))
-          ],
-        );
-      }
-    );
-  }
-
-List<Widget> getUsrs() {
-  List<Widget> tiles = [];
-  initializePreference();
-  Set<String> keys = preferences?.getKeys()??{};
-  keys.forEach((String key) {
-    tiles.add(
-      Container(
-        child: ListTile(title: Text(key), subtitle: Text(read(key).toString()),),),
-    );
-   });
-
-  
-  return tiles;
 }
-
-  
-
-
-
-  
-}
-
-
-
-

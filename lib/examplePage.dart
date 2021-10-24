@@ -86,7 +86,7 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
           SizedBox(width: 15,),
           FloatingActionButton.extended(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {return Demo2();}));
+              Navigator.push(context, MaterialPageRoute(builder: (context) {return ListViewBuilder();}));
               },
               icon: Icon(Icons.next_plan),
               label: Text("Demo.."),
