@@ -20,7 +20,7 @@ class _Demo2State extends State<Demo2> {
 
   Future<void> initializePreference() async{
     preferences = await SharedPreferences.getInstance();
-    preferences?.setString(count.toString(), "Peter");
+    //preferences?.setString(count.toString(), "Peter");
   }
 
   // String clearStorage()  {
@@ -48,14 +48,22 @@ class _Demo2State extends State<Demo2> {
     prefs.clear();
   }
 
+  Future readAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    final keys = prefs.getKeys();
+    var fullList = [];
+    for (String key in keys){
+      fullList.add(prefs.get(key));
+    }
+    
+    return json.decode(fullList.toString());
+  }
+
   countList() async {
     final prefs = await SharedPreferences.getInstance();
     final keys = prefs.getKeys();
-    //print(keys.length);
+    print(keys.length);
     return keys.length;
-    // SharedPreferences? prefs;
-    // final keys = prefs?.getKeys();
-    // print(keys?.length);
   }
 
   void printStorageContent() async {
@@ -69,11 +77,11 @@ class _Demo2State extends State<Demo2> {
   }
 
 
-  @override
-  void initState() {
-    initializePreference().whenComplete(() {setState(() {});});
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   initializePreference().whenComplete(() {setState(() {});});
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +96,29 @@ class _Demo2State extends State<Demo2> {
               TextButton(onPressed: () {print(countList());}, child: Text("records no")),
             ],
           ),
-          // ListView.builder(itemBuilder: getUsrs())
+          TextButton(onPressed: () {readAll().then((value) => print(value)); print(readAll());}, child: Text("print all records as list")),
+          
+          FutureBuilder(
+            future: readAll(),
+            builder: (context, AsyncSnapshot snapshot){
+              if (!snapshot.hasData) {
+                return Text("No data");
+              } else {
+                print(snapshot.data.toString());
+              return ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index){
+                  print(index);
+                  return ListTile(
+                    title: Text(snapshot.data[index]['username']), 
+                    subtitle: Text(snapshot.data![index].toString()),
+                    );
+                }); 
+                }
+            },)
+
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){showInputDialog(context);}, child: Icon(Icons.add),),
@@ -128,27 +158,6 @@ class _Demo2State extends State<Demo2> {
       }
     );
   }
-
-List<Widget> getUsrs() {
-  List<Widget> tiles = [];
-  initializePreference();
-  Set<String> keys = preferences?.getKeys()??{};
-  keys.forEach((String key) {
-    tiles.add(
-      Container(
-        child: ListTile(title: Text(key), subtitle: Text(read(key).toString()),),),
-    );
-   });
-
-  
-  return tiles;
-}
-
-  
-
-
-
-  
 }
 
 
