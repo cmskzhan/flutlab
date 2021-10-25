@@ -22,7 +22,7 @@ class _ListViewBuilderState extends State<ListViewBuilder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("ListView Future Demo"),),
+      appBar: AppBar(title: Text("Left swipe ListView Future Demo"),),
       body: FutureBuilder(
         builder: (context, AsyncSnapshot snapshot) {
           // WHILE THE CALL IS BEING MADE AKA LOADING
@@ -41,9 +41,13 @@ class _ListViewBuilderState extends State<ListViewBuilder> {
             separatorBuilder: (BuildContext context, int index) => const Divider(),
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(snapshot.data[index]['title']),
-                subtitle: Text(snapshot.data[index].toString()),
+              final item = snapshot.data[index].toString();
+              return Dismissible(
+                key: Key(item),
+                child: ListTile(
+                  title: Text(snapshot.data[index]['title']),
+                  subtitle: Text(snapshot.data[index].toString()),
+                ),
               );
             },);
         },
