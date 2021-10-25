@@ -19,6 +19,24 @@ class _ListViewBuilderState extends State<ListViewBuilder> {
     return json.decode(response.body);
   }
 
+    ListView _listview(context, AsyncSnapshot snapshot) {
+    return ListView.separated(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                separatorBuilder: (BuildContext context, int index) => const Divider(),
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  final item = snapshot.data[index].toString();
+                  return Dismissible(
+                    key: Key(item),
+                    child: ListTile(
+                      title: Text(snapshot.data[index]['title']),
+                      subtitle: Text(snapshot.data[index].toString()),
+                    ),
+                  );
+                },);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,23 +57,8 @@ class _ListViewBuilderState extends State<ListViewBuilder> {
                   return Center(child: Text(snapshot.error.toString()));
                 }
           
-          
                 // IF URL WORKS IT GOES HERE!
-                return ListView.separated(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  separatorBuilder: (BuildContext context, int index) => const Divider(),
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    final item = snapshot.data[index].toString();
-                    return Dismissible(
-                      key: Key(item),
-                      child: ListTile(
-                        title: Text(snapshot.data[index]['title']),
-                        subtitle: Text(snapshot.data[index].toString()),
-                      ),
-                    );
-                  },);
+                return _listview(context, snapshot);
               },
               future: getAllTodos(),
               ),
@@ -64,5 +67,6 @@ class _ListViewBuilderState extends State<ListViewBuilder> {
       ),
       
     );
+
   }
 }
