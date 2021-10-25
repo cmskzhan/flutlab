@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helloworld/jsonData.dart';
+import 'jsonData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -22,11 +22,6 @@ class _Demo2State extends State<Demo2> {
     preferences = await SharedPreferences.getInstance();
     //preferences?.setString(count.toString(), "Peter");
   }
-
-  // String clearStorage()  {
-  //   preferences!.clear(); //! indicates I'm sure it won't be null
-  //   return "";
-  // }
 
   read(String key) async {
     final prefs = await SharedPreferences.getInstance();
@@ -76,13 +71,6 @@ class _Demo2State extends State<Demo2> {
 
   }
 
-
-  // @override
-  // void initState() {
-  //   initializePreference().whenComplete(() {setState(() {});});
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,32 +87,34 @@ class _Demo2State extends State<Demo2> {
           TextButton(onPressed: () {readAll().then((value) => print(value)); print(readAll());}, child: Text("print all records as list")),
           TextButton(onPressed: () {setState(() { });}, child: Text("refresh")),
           
-          FutureBuilder(
-            future: readAll(),
-            builder: (context, AsyncSnapshot snapshot){
-              if (!snapshot.hasData) {
-                return Text("No data");
-              } else {
-                print(snapshot.data.toString());
-              return ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index){
-                  print(index);        
-                  return Dismissible(
-                    key: UniqueKey(),
-                    onDismissed:(direction) {setState(() {
-                      remove(snapshot.data[index]['username']); //key is username when saved
-                    });},
-                    child: ListTile(
-                      title: Text(snapshot.data[index]['username']), 
-                      subtitle: Text(snapshot.data![index].toString()),
-                      ),
-                  );
-                }); 
-                }
-            },)
+          Expanded( //use expanded avoid RenderFlex overflowed by XX pixels on the bottom
+            child: FutureBuilder(
+              future: readAll(),
+              builder: (context, AsyncSnapshot snapshot){
+                if (!snapshot.hasData) {
+                  return Text("No data");
+                } else {
+                  print(snapshot.data.toString());
+                return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index){
+                    print(index);        
+                    return Dismissible(
+                      key: UniqueKey(),
+                      onDismissed:(direction) {setState(() {
+                        remove(snapshot.data[index]['username']); //key is username when saved
+                      });},
+                      child: ListTile(
+                        title: Text(snapshot.data[index]['username']), 
+                        subtitle: Text(snapshot.data![index].toString()),
+                        ),
+                    );
+                  }); 
+                  }
+              },),
+          )
 
         ],
       ),
@@ -145,7 +135,7 @@ class _Demo2State extends State<Demo2> {
             child: Column(
               children: [
                 TextField(controller: txtUsername, decoration: InputDecoration(hintText: "Description"),),
-                TextField(controller: txtDuration, decoration: InputDecoration(hintText: "Duration"),),
+                TextField(controller: txtDuration, decoration: InputDecoration(hintText: "Duration"), keyboardType: TextInputType.number,),
               ],
             ),            
             ),
@@ -159,7 +149,9 @@ class _Demo2State extends State<Demo2> {
                 userSave.date = "2020-10-20";
                 save(txtUsername.text, userSave);
                 count++;
-                Navigator.pop(context);}, 
+                Navigator.pop(context);
+                txtUsername.text = ""; //clear the text field for next input
+                }, 
               child: Text('Save'))
           ],
         );
