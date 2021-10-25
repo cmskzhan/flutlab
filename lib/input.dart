@@ -111,11 +111,17 @@ class _Demo2State extends State<Demo2> {
                 scrollDirection: Axis.vertical,
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index){
-                  print(index);
-                  return ListTile(
-                    title: Text(snapshot.data[index]['username']), 
-                    subtitle: Text(snapshot.data![index].toString()),
-                    );
+                  print(index);        
+                  return Dismissible(
+                    key: UniqueKey(),
+                    onDismissed:(direction) {setState(() {
+                      remove(snapshot.data[index]['username']); //key is username when saved
+                    });},
+                    child: ListTile(
+                      title: Text(snapshot.data[index]['username']), 
+                      subtitle: Text(snapshot.data![index].toString()),
+                      ),
+                  );
                 }); 
                 }
             },)
