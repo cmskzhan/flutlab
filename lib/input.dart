@@ -97,6 +97,7 @@ class _Demo2State extends State<Demo2> {
             ],
           ),
           TextButton(onPressed: () {readAll().then((value) => print(value)); print(readAll());}, child: Text("print all records as list")),
+          TextButton(onPressed: () {setState(() { });}, child: Text("refresh")),
           
           FutureBuilder(
             future: readAll(),
@@ -121,7 +122,8 @@ class _Demo2State extends State<Demo2> {
 
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){showInputDialog(context);}, child: Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(onPressed: (){showInputDialog(context);}, child: Icon(Icons.add), heroTag: "addButton",),
+
     );
   }
 
