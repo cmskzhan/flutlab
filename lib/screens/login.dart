@@ -16,11 +16,11 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         children: [
           Container(height: 200, child: Image.asset('images/logo.png'),),
-          SizedBox(height: 48,),
+          SizedBox(height: 22,),
           TextField(decoration: InputDecoration(hintText: "Email Addr"),),
           SizedBox(height: 8,),
           TextField(decoration: InputDecoration(hintText: " Password "),),
-          SizedBox(height: 48,),
+          SizedBox(height: 22,),
           ElevatedButton(onPressed: (){
             //TODO login function
           }, child: Text("Log in"))

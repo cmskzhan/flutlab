@@ -19,11 +19,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(child: Image.asset('images/logo.png'), height: 200,),
-            SizedBox(height: 48,),
+            SizedBox(height: 22,),
             TextField(decoration: InputDecoration(hintText: "Email Addr"),),
             SizedBox(height: 8,),
             TextField(decoration: InputDecoration(hintText: " Password "),),
-            SizedBox(height: 48,),
+            SizedBox(height: 22,),
             ElevatedButton(onPressed: () {
               //TODO implement registration function
             }, child: Text("Register"))
