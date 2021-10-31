@@ -12,14 +12,18 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin{ //one Ticker only
-  AnimationController? controller; 
+  late AnimationController controller; 
+  Animation? _animation;
 
   @override
   void initState() {
     controller = AnimationController(vsync: this, duration: Duration(seconds: 5)); //vsync this particular object
     super.initState(); //Now we have ticker and controller, we need to know the start value of the animation
-    controller!.reverse(from: 100);
-    controller!.addListener(() { setState(() {});  print(controller!.value);});
+    controller.reverse(from: 1);
+
+    //https://api.flutter.dev/flutter/animation/Curves-class.html
+    _animation = CurvedAnimation(parent: controller, curve: Curves.easeInOutQuint);
+    controller.addListener(() { setState(() {});  print(_animation!.value);});
 
   }
 
@@ -39,9 +43,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 Hero(
                   tag: "logo",
                   child: Container(child: Image.asset('images/logo.png'),
-                                   height: controller!.value*100,),
+                                   height: _animation!.value*100,),
                 ),
-                Text('CountDown ${(controller!.value*100).toInt()}%', style: TextStyle(color: Colors.amber, fontSize: 30, fontWeight: FontWeight.w900,),)
+                Text('CountDown ${(_animation!.value*100).toInt()}%', style: TextStyle(color: Colors.amber, fontSize: 30, fontWeight: FontWeight.w900,),)
               ],
             ),
             SizedBox(height: 48,),
