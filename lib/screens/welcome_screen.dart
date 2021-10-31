@@ -39,9 +39,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 Hero(
                   tag: "logo",
                   child: Container(child: Image.asset('images/logo.png'),
-                                   height: 60,),
+                                   height: controller!.value,),
                 ),
-                Text('Loadding ${controller!.value.toInt()}%', style: TextStyle(color: Colors.amber, fontSize: 40, fontWeight: FontWeight.w900,),)
+                Text('Loadding ${controller!.value.toInt()}%', style: TextStyle(color: Colors.amber, fontSize: 30, fontWeight: FontWeight.w900,),)
               ],
             ),
             SizedBox(height: 48,),
