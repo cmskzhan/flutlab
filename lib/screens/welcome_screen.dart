@@ -23,7 +23,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
 
     //https://api.flutter.dev/flutter/animation/Curves-class.html
     _animation = CurvedAnimation(parent: controller, curve: Curves.easeInOutQuint);
+    
     controller.addListener(() { setState(() {});  print(_animation!.value);});
+    _animation!.addStatusListener((status) {print(status);});
 
   }
 
