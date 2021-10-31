@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld/screens/login.dart';
+import 'package:helloworld/screens/registration.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({ Key? key }) : super(key: key);
-  static const String id = 'welcome_screen';
+  static const String id = 'welcome_screen'; 
+  //static makes this property accessible at class level and can be called by classname.property directly without creating object
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -37,7 +40,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   child: Text("Login"),
                   onPressed: () {
-                  //TODO go to login page
+                  Navigator.pushNamed(context, LoginScreen.id);
                 },),),
               ),            
               Padding(
@@ -49,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   child: Text("Registrate"),
                   onPressed: () {
-                  //TODO go to registrtion page
+                  Navigator.pushNamed(context, RegistrationScreen.id);
                 },),),
               ),
           ],
