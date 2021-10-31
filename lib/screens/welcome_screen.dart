@@ -11,11 +11,22 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin{ //one Ticker only
+  AnimationController? controller; 
+
+  @override
+  void initState() {
+    controller = AnimationController(vsync: this, duration: Duration(seconds: 2)); //vsync this particular object
+    super.initState(); //Now we have ticker and controller, we need to know the start value of the animation
+    controller!.forward();
+    controller!.addListener(() { setState(() {});  print(controller!.value);});
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.red.withOpacity(controller!.value),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: Column(
