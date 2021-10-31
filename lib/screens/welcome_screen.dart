@@ -16,9 +16,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
 
   @override
   void initState() {
-    controller = AnimationController(vsync: this, duration: Duration(seconds: 5), upperBound: 100); //vsync this particular object
+    controller = AnimationController(vsync: this, duration: Duration(seconds: 5)); //vsync this particular object
     super.initState(); //Now we have ticker and controller, we need to know the start value of the animation
-    controller!.forward();
+    controller!.reverse(from: 100);
     controller!.addListener(() { setState(() {});  print(controller!.value);});
 
   }
@@ -39,9 +39,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 Hero(
                   tag: "logo",
                   child: Container(child: Image.asset('images/logo.png'),
-                                   height: controller!.value,),
+                                   height: controller!.value*100,),
                 ),
-                Text('Loadding ${controller!.value.toInt()}%', style: TextStyle(color: Colors.amber, fontSize: 30, fontWeight: FontWeight.w900,),)
+                Text('CountDown ${(controller!.value*100).toInt()}%', style: TextStyle(color: Colors.amber, fontSize: 30, fontWeight: FontWeight.w900,),)
               ],
             ),
             SizedBox(height: 48,),
