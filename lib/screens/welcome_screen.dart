@@ -19,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   void initState() {
     controller = AnimationController(vsync: this, duration: Duration(seconds: 5)); //vsync this particular object
     super.initState(); //Now we have ticker and controller, we need to know the start value of the animation
-    controller.reverse(from: 1);
+    controller.forward();
 
     //https://api.flutter.dev/flutter/animation/Curves-class.html
     _animation = CurvedAnimation(parent: controller, curve: Curves.easeInOutQuint);
