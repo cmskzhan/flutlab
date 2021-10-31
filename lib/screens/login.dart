@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(padding: EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          Container(height: 200, child: Image.asset('images/logo.png'),),
+          Hero(tag: "logo",child: Container(height: 200, child: Image.asset('images/logo.png'),)),
           SizedBox(height: 22,),
           TextField(decoration: InputDecoration(hintText: "Email Addr"),),
           SizedBox(height: 8,),

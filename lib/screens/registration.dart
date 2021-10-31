@@ -19,7 +19,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(child: Image.asset('images/logo.png'), height: 200,),
+            Hero(tag: "logo", child: Container(child: Image.asset('images/logo.png'), height: 200,)),
             SizedBox(height: 22,),
             TextField(decoration: InputDecoration(hintText: "Email Addr"),),
             SizedBox(height: 8,),
