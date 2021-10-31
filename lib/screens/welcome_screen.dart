@@ -16,7 +16,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
 
   @override
   void initState() {
-    controller = AnimationController(vsync: this, duration: Duration(seconds: 2)); //vsync this particular object
+    controller = AnimationController(vsync: this, duration: Duration(seconds: 5), upperBound: 100); //vsync this particular object
     super.initState(); //Now we have ticker and controller, we need to know the start value of the animation
     controller!.forward();
     controller!.addListener(() { setState(() {});  print(controller!.value);});
@@ -26,7 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red.withOpacity(controller!.value),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: Column(
@@ -41,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                   child: Container(child: Image.asset('images/logo.png'),
                                    height: 60,),
                 ),
-                Text('Flash Chat', style: TextStyle(color: Colors.amber, fontSize: 45, fontWeight: FontWeight.w900,),)
+                Text('Loadding ${controller!.value.toInt()}%', style: TextStyle(color: Colors.amber, fontSize: 40, fontWeight: FontWeight.w900,),)
               ],
             ),
             SizedBox(height: 48,),
