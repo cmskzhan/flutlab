@@ -21,19 +21,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     super.initState(); //Now we have ticker and controller, we need to know the start value of the animation
     controller.forward();
 
-    //https://api.flutter.dev/flutter/animation/Curves-class.html
-    _animation = CurvedAnimation(parent: controller, curve: Curves.easeInOutQuint);
+    _animation = ColorTween(begin: Colors.white, end: Colors.black).animate(controller);
     
     controller.addListener(() { setState(() {});  print(_animation!.value);});
-    _animation!.addStatusListener((status) {
-      if (status == AnimationStatus.completed){
-        controller.reverse(from: 1);
-      }
-      else if (status == AnimationStatus.dismissed) {
-        controller.forward();
-      }
-    });
-
   }
 
 @override
@@ -59,9 +49,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 Hero(
                   tag: "logo",
                   child: Container(child: Image.asset('images/logo.png'),
-                                   height: _animation!.value*100,),
+                                   height: 60,),
                 ),
-                Text('CountDown ${(_animation!.value*100).toInt()}%', style: TextStyle(color: Colors.amber, fontSize: 30, fontWeight: FontWeight.w900,),)
+                Text('Chats', style: TextStyle(color: _animation!.value, fontSize: 40, fontWeight: FontWeight.w900,),)
               ],
             ),
             SizedBox(height: 48,),
