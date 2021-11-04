@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({ Key? key }) : super(key: key);
@@ -19,8 +20,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            AnimatedTextKit(animatedTexts: [ScaleAnimatedText("Registration", scalingFactor: 1, textAlign: TextAlign.center), ],),
             Hero(tag: "logo", child: Container(child: Image.asset('images/logo.png'), height: 200,)),
-            SizedBox(height: 22,),
+            SizedBox(height: 11,),
             TextField(decoration: InputDecoration(hintText: "Email Addr"),),
             SizedBox(height: 8,),
             TextField(decoration: InputDecoration(hintText: " Password "),),

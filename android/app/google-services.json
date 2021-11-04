@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "330322261082",
+    "project_id": "api-project-330322261082",
+    "storage_bucket": "api-project-330322261082.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330322261082:android:adedc77762c40c43241463",
+        "android_client_info": {
+          "package_name": "com.kai.helloworld"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330322261082-gc94uikpeu9is1fv1qn7lgpp09it4pcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAo0l3QzbMtpCsk-H_kbwm_RYbRnF-CLdw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330322261082-gc94uikpeu9is1fv1qn7lgpp09it4pcq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
