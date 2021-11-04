@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +16,9 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: Padding(padding: EdgeInsets.symmetric(horizontal: 24),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          AnimatedTextKit(animatedTexts: [TypewriterAnimatedText('Login Page'),]), // https://pub.dev/packages/animated_text_kit#typewriter
           Hero(tag: "logo",child: Container(height: 200, child: Image.asset('images/logo.png'),)),
           SizedBox(height: 22,),
           TextField(decoration: InputDecoration(hintText: "Email Addr"),),
